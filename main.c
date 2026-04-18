@@ -28,12 +28,12 @@ int main(int argc, char* argv[]) {
     struct user_regs_struct regs;
     if (ptrace(PTRACE_GETREGS, pid, NULL, &regs) == -1) {
         perror("ptrace get registers");
-        return 1
+        return 1;
     }
 
 #if defined(__x86_64__)
 
-    ng rbp = regs.rbp;
+    long rbp = regs.rbp;
     int frame = 0;
 
     while (rbp && frame < 50) {  // limit to avoid infinite loops
