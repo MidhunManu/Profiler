@@ -28,19 +28,19 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	#if defined(__x86_64__)
-		printf("Instruction Pointer : 0x%llx\n", regs.rip);
-		printf("Stack Pointer : 0x%llx\n", regs.rsp);
+#if defined(__x86_64__)
+	printf("Instruction Pointer : 0x%llx\n", regs.rip);
+	printf("Stack Pointer : 0x%llx\n", regs.rsp);
 
-		errno = 0;
-		long data = ptrace(PTRACE_PEEKDATA, pid, (void*) regs.rsp, NULL);
-		if (data == -1 && errno != 0) {
-			perror("ptrace peek data");
-			return 1;
-		} else {
-			printf("data at rsp: 0x%llx\n", data);
-		}
-	#endif
+	errno = 0;
+	long data = ptrace(PTRACE_PEEKDATA, pid, (void*) regs.rsp, NULL);
+	if (data == -1 && errno != 0) {
+		perror("ptrace peek data");
+		return 1;
+	} else {
+		printf("data at rsp: 0x%llx\n", data);
+	}
+#endif
 
 	if (ptrace(PTRACE_DETACH, pid, NULL, NULL) == -1) {
 		perror("ptrace detach");
